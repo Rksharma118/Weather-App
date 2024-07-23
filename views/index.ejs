@@ -1,0 +1,48 @@
+<%-include('./partials/header')%>
+
+<div class="container">
+  <h2>Enter a city to get the current weather</h2>
+  <form action="/" method="POST">
+    <input type="text" name="city" placeholder="City" required />
+    <button type="submit">Get Weather</button>
+  </form>
+</div>
+
+<div class="main">
+  <% if (weather) { %>
+  <div class="card">
+    <h3>Weather in : <%= weather.city %></h3>
+    <p>Temperature: <%= weather.temperature %>°C</p>
+    <p>Weather Condition: <%= weather.weathercondition%></p>
+    <p>Description: <%= weather.desc %></p>
+    <p>
+      <img
+        src="http://openweathermap.org/img/wn/<%= weather.WeatherIcon%>@2x.png"
+        alt="Weather icon"
+      />
+    </p>
+  </div>
+
+  <% if (hourlyForecast) { %>
+  <div class="hourly-forecast card">
+    <h3>Hourly Forecast for <%= weather.city %></h3>
+    <ul>
+      <% hourlyForecast.forEach(hour => { %>
+      <li><%= hour.time %>: <%= hour.desc %></li>
+      <% }); %>
+    </ul>
+  </div>
+  <% } %> <% if (fiveDayForecast) { %>
+  <div class="five-day-forecast card">
+    <h3>5-Day Forecast for <%= weather.city %></h3>
+    <ul>
+      <% fiveDayForecast.forEach(day => { %>
+      <li><%= day.date %> - <%= day.temperature %>°C --> <%= day.desc %></li>
+      <% }); %>
+    </ul>
+  </div>
+  <% } %> <%}%> <% if (error) { %>
+  <p><%= error %></p>
+  <% } %>
+</div>
+<%-include('./partials/footer')%>
